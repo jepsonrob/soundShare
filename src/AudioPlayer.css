@@ -1,0 +1,47 @@
+.audioPlayer {
+	width:300px;
+	height:78px;
+	border: solid black 3px;
+	box-shadow:5px 10px #888;
+	margin:12px 30px;
+	display:inline-block;
+}
+
+.one {
+background-color:orange;
+}
+
+.two{
+background-color:blue;
+
+}
+
+.three {
+background-color:green;
+
+}
+
+.four{
+background-color:red;
+
+}
+
+.five {
+background-color:yellow;
+
+}
+
+.muted {
+	color:#888;
+}
+
+.muteIcon, .cloudIcon {
+	display:inline-block;
+	margin:4px 25px;
+	vertical-align: middle;
+
+}
+
+
+
+

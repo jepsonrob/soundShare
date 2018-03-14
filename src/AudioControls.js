@@ -7,7 +7,7 @@ import FAStopCircle from 'react-icons/lib/fa/stop-circle';
 class AudioControls extends Component {
   render() {
     return (
-        <div className="audioPlayer">
+        <div className="audioControls">
     		<FAPlayCircle onClick={this.props.playHandler} 
     			className={this.props.playState==='playing' ? 'playButton active' : 'playButton'} 
     			style={{cursor:'pointer'}}	/>
