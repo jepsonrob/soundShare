@@ -17,15 +17,30 @@ class Heading extends Component {
         position: 0,
         muted: [0,0,0,0,0],
         selectedUrl: ['/audio/ambience.mp3', '/audio/loopOne.mp3', '/audio/loopTwo.mp3', '/audio/loopThree.mp3', '/audio/loopFour.mp3'],
-        one:{},
-        two:{},
-        three:{},
-        four:{},
-        five:{}
       }
 
     // I've been struggling with a better way of doing this, so for first prototype I'll just do it a non-elegant way that works.
     // So far I've tried using Tone.Multiplayer, Tone.Players, Tone.Buffers & vanilla web audio. 
+    this.state.one = new Tone.Player({
+      "url" : this.state.selectedUrl[0],
+      "loop" : true
+    }).toMaster();
+    this.state.two = new Tone.Player({
+      "url" : this.state.selectedUrl[1],
+      "loop" : true
+    }).toMaster();
+    this.state.three = new Tone.Player({
+      "url" : this.state.selectedUrl[2],
+      "loop" : true
+    }).toMaster();
+    this.state.four = new Tone.Player({
+      "url" : this.state.selectedUrl[3],
+      "loop" : true
+    }).toMaster();
+    this.state.five = new Tone.Player({
+      "url" : this.state.selectedUrl[4],
+      "loop" : true
+    }).toMaster();
 
 
     this.state.muteTrack = function(toggled){
@@ -131,37 +146,8 @@ class Heading extends Component {
   }
 
   componentDidMount(){
-    let one = new Tone.Player({
-      "url" : this.state.selectedUrl[0],
-      "loop" : true
-    }).toMaster();
-    let two = new Tone.Player({
-      "url" : this.state.selectedUrl[1],
-      "loop" : true
-    }).toMaster();
-    let three = new Tone.Player({
-      "url" : this.state.selectedUrl[2],
-      "loop" : true
-    }).toMaster();
-    let four = new Tone.Player({
-      "url" : this.state.selectedUrl[3],
-      "loop" : true
-    }).toMaster();
-    let five = new Tone.Player({
-      "url" : this.state.selectedUrl[4],
-      "loop" : true
-    }).toMaster();
-
-    this.setState({
-      one: one,
-      two: two,
-      three: three,
-      four: four,
-      five: five
-    })
-
-    console.log(this.state.one)
   }
+
 
 }
 
