@@ -15,6 +15,7 @@ class AudioPlayer extends Component {
     return (
         <div className='playerContainer'>
         	<div className={this.props.classy + ' audioPlayer'}>
+        	<p> Please do me a favour and imagine a waveform here </p>
         	</div>
         	<FaHeadphones size={30} className={this.props.muted ? 'muted muteIcon' : 'muteIcon'} style={{cursor:'pointer'}} onClick={()=>{this.props.muter(this.props.newkey) }} />
         	{ this.props.userTrack ? (

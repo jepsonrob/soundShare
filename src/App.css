@@ -20,3 +20,8 @@
 .App-intro {
   font-size: large;
 }
+
+.waveformContainer {
+	width:60%;
+	margin: 0 auto;
+}

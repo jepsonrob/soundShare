@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AppTwo from './AppTwo';
 import registerServiceWorker from './registerServiceWorker';
+
+require("babel-polyfill");
 
 
 ReactDOM.render(
-		<App />,
+		<AppTwo />,
 	document.getElementById('root'));
 registerServiceWorker();
