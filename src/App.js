@@ -1,5 +1,4 @@
 import React from 'react';
-import Waveform from 'waveform-react';
 import './App.css'
 import {
 	getAudioBuffer,
@@ -7,7 +6,8 @@ import {
 	indexOfMax
 } from './utils';
 import Tone from 'tone';
-
+import AudioPlayer from './AudioPlayer';
+import AudioControls from './AudioControls';
 
 
 class App extends React.Component {
@@ -17,6 +17,7 @@ class App extends React.Component {
 			user: 0,
 			playState: 'stopped',
 			loaded:false,
+			globalTempo: 120,
 
 			audio: [{
 				buffer: null,
@@ -57,7 +58,7 @@ class App extends React.Component {
 					color: '#4B5AB8',
 					animate: true,
 					plot: 'bar',
-					pointWidth: 3
+					pointWidth: 1
 				},
 				muted: false,
 				url: '/audio/loopOne.mp3',
@@ -147,24 +148,22 @@ class App extends React.Component {
 			});
 		}
 
-		/* Likely useful for future uploading
-		  handleFile = event => {
-		    const files = event.target.files;
-		    const file = window.URL.createObjectURL(files[0]);
-		    this.getFile(file);
-		  };
-		*/
-
-		/* We dont need this function at all to be honest
-		setPosition = (val, key) => { // sets the position of the playhead
-			let newAudioState = [...this.state.audio]; // Copies the array
-			newAudioState[key].position = val; // adds the new buffer to the array
-			this.setState({
-				audio: newAudioState
-			}); // sets the state accordingly
-		};
-		*/
-
+		clickHandler(control, track){
+			switch(control){
+				case 'play':
+					this.start()
+					break;
+				case 'stop':
+					this.stop();
+					break;
+				case 'pause':
+					this.pause();
+					break;
+				case 'mute':
+					this.muteTrack(track);
+					break;
+			}
+		}
 
 		start() {
 			if(this.state.loaded===true)
@@ -177,22 +176,33 @@ class App extends React.Component {
 				for (let x = 0; x < this.state.audio.length; x++) {
 					let currentPosition = Tone.Transport.progress * this.state.audio[x].bufferRatio
 					let newAudioState = this.state.audio;
-					newAudioState[x].position = currentPosition % 1;
+					newAudioState[x].position = currentPosition % 1;					
 					this.setState({
-						newAudioState
+						audio: newAudioState
 					})
 				}
 			}, 100);
 		}
 
 		stop() {
+			this.setState({playState: 'stopped'})
+			Tone.Transport.stop();
+			for (let x = 0; x < this.state.audio.length; x++) {
+					let newAudioState = this.state.audio;
+					newAudioState[x].position = 0;					
+					this.setState({
+						audio: newAudioState
+					})
+				}
 			clearInterval(this.playheadObserver);
-			Tone.Transport.stop()
+
 		}
 
 		pause() {
-			clearInterval(this.playheadObserver);
+			this.setState({playState: 'paused'})
 			Tone.Transport.pause();
+			clearInterval(this.playheadObserver);
+
 		}
 
 		audioInit = async (key) => { // grabs the file through some async magic
@@ -207,7 +217,10 @@ class App extends React.Component {
 			// and do the whole thing again! 
 			newAudioState = [...this.state.audio]; // Copies the whole array again
 			newAudioState[key].player = player; // adds the new player to the object
-			newAudioState[key].player.loop = true;
+			// Below - turning on looping on specific clips. Could be a useful feature!
+			// newAudioState[key].player.loop = true;
+			// Below - it is possible to modify the speed of playback. This will be useful for a 'sync' feature.
+			// newAudioState[key].player.playbackRate = 0.5
 			this.setState({
 				audio: newAudioState
 			}); // sets the state accordingly
@@ -218,9 +231,10 @@ class App extends React.Component {
 	muteTrack(toggledTrack){
 		let newAudioState = [...this.state.audio];
 		newAudioState[toggledTrack].muted = !this.state.audio[toggledTrack].muted;
-		newAudioState[toggledTrack].player.mute = !this.state.audio[toggledTrack].muted;
+		newAudioState[toggledTrack].player.mute = !this.state.audio[toggledTrack].player.mute;
     this.setState({audio: newAudioState});
   }
+
  
 
 
@@ -228,33 +242,21 @@ class App extends React.Component {
 	render() {
 			return (
 		      <div>
-		          <button onClick={()=>this.start()}> Play </button>
-		          <button onClick={()=>this.pause()}> Pause </button>
-		          <button onClick={()=>this.stop()}> Stop </button>
+		      		<AudioControls playState={this.state.playState} clickHandler={(click)=>this.clickHandler(click)} />
 
+		          <div className='interfaceContainer'>
 
-		          <div className='waveformContainer'>
-
-
-		          {this.state.audio.map((wave, key) => 
-		            <Waveform 
-		            key={key}
-		            buffer={wave.buffer}
-		            height={wave.height}
-		            markerStyle={wave.markerStyle}
-		            position={wave.position}
-		            responsive={wave.responsive}
-		            showPosition={wave.showPosition}
-		            waveStyle={wave.waveStyle}
-		            width={wave.width}
+		          {this.state.audio.map((wave, index) => 
+		            <AudioPlayer 
+		            	audio={wave} 
+		            	user={this.state.user} 
+		            	index={index} 
+		            	key={index}
+		            	clickHandler={(click, track)=>this.clickHandler(click, track)} 
 		            />
 
-		            )}
+		          )}
 
-		          { /*
-								Add this to make the waveform playhead 'clickable'
-		          onPositionChange={(pos)=>{this.setPosition(pos, key)}}*/ 
-		        	}
 
 
 		          

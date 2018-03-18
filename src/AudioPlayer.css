@@ -1,41 +1,23 @@
-.audioPlayer {
-	width:300px;
-	height:78px;
-	border: solid black 3px;
-	box-shadow:5px 10px #888;
-	margin:12px 30px;
+
+
+.waveformContainer {
 	display:inline-block;
+	width:60%;
+	box-shadow: 10px 10px 6px -5px rgba(0,0,0,0.42);
+	background-color:black;
+	transition: box-shadow 0.3s;
+	margin:0 auto;
 }
 
-.one {
-background-color:orange;
-}
-
-.two{
-background-color:blue;
-
-}
-
-.three {
-background-color:green;
-
-}
-
-.four{
-background-color:red;
-
-}
-
-.five {
-background-color:yellow;
-
+.waveformContainer:hover {
+box-shadow: 10px 10px 35px -3px rgba(0,0,0,0.42);
 }
 
 .muted {
 	color:#888;
 }
 
-.muteIcon, .cloudIcon {
+.icon {
 	display:inline-block;
 	margin:4px 25px;
 	vertical-align: middle;

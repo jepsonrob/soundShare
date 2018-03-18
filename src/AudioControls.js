@@ -8,13 +8,13 @@ class AudioControls extends Component {
   render() {
     return (
         <div className="audioControls">
-    		<FAPlayCircle onClick={this.props.playHandler} 
+    		<FAPlayCircle size={30} onClick={()=>{this.props.clickHandler('play')}} 
     			className={this.props.playState==='playing' ? 'playButton active' : 'playButton'} 
     			style={{cursor:'pointer'}}	/>
-    		<FAPauseCircle onClick={this.props.pauseHandler} 
+    		<FAPauseCircle size={30} onClick={()=>{this.props.clickHandler('pause')}} 
     			className={this.props.playState==='paused' ? 'pauseButton active' : 'pauseButton'} 
     			style={{cursor:'pointer'}}	/>
-    		<FAStopCircle onClick={this.props.stopHandler} 
+    		<FAStopCircle size={30} onClick={()=>{this.props.clickHandler('stop')}} 
     			className='stopButton'
     			style={{cursor:'pointer'}}	/>
         </div>

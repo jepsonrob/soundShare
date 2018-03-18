@@ -3,24 +3,37 @@ import FaHeadphones from 'react-icons/lib/fa/headphones';
 import FaCloudDownload from 'react-icons/lib/fa/cloud-download';
 import FaCloudUpload from 'react-icons/lib/fa/cloud-upload';
 import FaHistory from 'react-icons/lib/fa/history';
+import FaRepeat from 'react-icons/lib/fa/repeat';
 import Waveform from 'waveform-react';
 import './AudioPlayer.css';
 import { Link } from 'react-router-dom';
 
 
 class AudioPlayer extends Component {
-	// Need to figure out how to compare this.props.user and this.props.newkey somehow.
 
   render() {
     return (
         <div className='playerContainer'>
-        	<div className={this.props.classy + ' audioPlayer'}>
-        	<p> Please do me a favour and imagine a waveform here </p>
-        	</div>
-        	<FaHeadphones size={30} className={this.props.muted ? 'muted muteIcon' : 'muteIcon'} style={{cursor:'pointer'}} onClick={()=>{this.props.muter(this.props.newkey) }} />
-        	{ this.props.userTrack ? (
-        		<Link to='/upload'><FaCloudUpload className='cloudIcon' size={30} /></Link>) : 
-        	(<FaCloudDownload className='cloudIcon' size={30} style={{cursor:'pointer'}} />) 
+
+        	<div className='waveformContainer'>
+
+		            <Waveform 
+		            buffer={this.props.audio.buffer}
+		            height={this.props.audio.height}
+		            markerStyle={this.props.audio.markerStyle}
+		            position={this.props.audio.position}
+		            responsive={this.props.audio.responsive}
+		            showPosition={this.props.audio.showPosition}
+		            waveStyle={this.props.audio.waveStyle}
+		            width={this.props.audio.width}
+		            />
+		         
+   			</div>
+
+        	<FaHeadphones size={30} className={this.props.audio.muted ? 'muted icon' : 'icon'} style={{cursor:'pointer'}} onClick={()=>{this.props.clickHandler('mute', this.props.index) }} />
+        	{ this.props.user==this.props.index ? (
+        		<FaCloudUpload className='icon' size={30} />) : 
+        	(<FaCloudDownload className='icon' size={30} style={{cursor:'pointer'}} />) 
         	}
 
         </div>
